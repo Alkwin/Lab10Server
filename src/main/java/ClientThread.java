@@ -9,8 +9,6 @@ class ClientThread extends Thread {
     private Socket socket = null;
     private ServerSocket serverSocket = null;
 
-    private Boolean exit = false;
-
     public ClientThread(Socket socket, ServerSocket serverSocket) {
         this.socket = socket;
         this.serverSocket = serverSocket;
@@ -27,7 +25,7 @@ class ClientThread extends Thread {
             if(request!=null) {
                 if (request.toLowerCase().contains("stop")) {
                     answer = "Server stopped for request " + request;
-                    exit = true;
+                    SimpleServer.serverState = false;
                     serverSocket.close();
                 } else {
                     answer = interpretRequest(request);
@@ -48,9 +46,5 @@ class ClientThread extends Thread {
     private String interpretRequest(String request) {
         // Here we will handle each command and provide back an answer
         return "Server received the request " + request;
-    }
-
-    public Boolean getExit() {
-        return exit;
     }
 }
